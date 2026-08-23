@@ -1,37 +1,61 @@
+# =========================
 # Python
+# =========================
 __pycache__/
 *.py[cod]
 *$py.class
 
-# Virtual environment
+# =========================
+# Virtual Environment
+# =========================
 .venv/
 venv/
 env/
 
+# =========================
 # IDE
+# =========================
 .vscode/
 .idea/
 
+# =========================
 # Jupyter
+# =========================
 .ipynb_checkpoints/
 
-# Model checkpoints
+# =========================
+# Model Checkpoints
+# =========================
 *.pth
 *.pt
 *.ckpt
 
+# =========================
+# Dataset
+# =========================
+data/raw/*
+data/processed/*
+
+# =========================
 # Logs
+# =========================
 *.log
 
-# Experiment outputs
-experiments/logs/*
-experiments/results/*
-experiments/figures/*
-
-# Temporary files
+# =========================
+# Temporary
+# =========================
 *.tmp
 *.temp
 
+# =========================
 # OS
+# =========================
 .DS_Store
 Thumbs.db
+
+# =========================
+# Experiment outputs
+# =========================
+experiments/logs/*
+experiments/results/*
+experiments/figures/*git add .
