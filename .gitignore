@@ -25,10 +25,14 @@ env/
 
 # =========================
 # Model Checkpoints
+# Ignore large/training checkpoints but track the inference model
+# needed by the deployed backend.
 # =========================
 *.pth
 *.pt
 *.ckpt
+# Force-track the production inference model
+!models/baseline_cnn.pth
 
 # =========================
 # Dataset
@@ -58,4 +62,21 @@ Thumbs.db
 # =========================
 experiments/logs/*
 experiments/results/*
-experiments/figures/*git add .
+experiments/figures/*
+
+# =========================
+# Frontend build output
+# =========================
+frontend/dist/
+frontend/node_modules/
+
+# =========================
+# Backend env (keep .env.example, ignore real .env)
+# =========================
+backend/.env
+!backend/.env.example
+
+# =========================
+# Frontend env (keep .env.production since it has no secrets)
+# =========================
+# frontend/.env.production is intentionally tracked

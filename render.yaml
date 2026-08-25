@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: anomaly-defense-backend
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt && alembic upgrade head
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: anomaly-defense-db
+          property: connectionString
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: JWT_ALGORITHM
+        value: HS256
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: 60
+      - key: APP_ENV
+        value: production
+      - key: CORS_ORIGINS
+        sync: false   # Set to your Vercel frontend URL after deploying
+
+databases:
+  - name: anomaly-defense-db
+    databaseName: anomaly_defense
+    user: anomaly_user
+    plan: free
