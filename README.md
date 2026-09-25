@@ -31,7 +31,10 @@ RealTime-Anomaly-Defense/
 │   ├── models/
 │   │   ├── cnn.py                  # MNISTCNN — 2 conv + FC + dropout (~98.94% clean accuracy)
 │   │   ├── cifar10_cnn.py          # CIFAR-10 CNN variant
-│   │   └── train_cnn.py            # Training script
+│   │   ├── gmdcn.py                # GMDCN — Deeper CNN parameterizable for gradient manipulation
+│   │   ├── train_cnn.py            # Training script
+│   │   ├── train_fashion_mnist.py  # Fashion-MNIST training script
+│   │   └── train_gmdcn.py          # GMDCN training script with manipulation modes
 │   ├── detection/
 │   │   └── anomaly_detector.py     # DynamicAnomalyDetector (threshold = 0.037860)
 │   ├── purification/
@@ -51,15 +54,23 @@ RealTime-Anomaly-Defense/
 │   ├── data/
 │   │   ├── mnist_loader.py         # MNIST IDX loader
 │   │   ├── preprocessing.py        # MNISTDataset PyTorch Dataset
+│   │   ├── cifar10_dataset.py      # CIFAR-10 Dataset wrapper
 │   │   ├── test_dataset.py         # Dataset validation helper
 │   │   └── visualize_dataset.py    # Sample visualization
-│   ├── evaluation/                 # 13 evaluation scripts (ablation, CIFAR, CW, EOT, etc.)
+│   ├── evaluation/                 # 13 evaluation scripts (ablation, CIFAR, CW, EOT, Fashion-MNIST, GMDCN, etc.)
+│   ├── optimization/               # Swarm Optimization (Step Groups 4-5)
+│   │   ├── ssa.py                  # Salp Swarm Algorithm (SSA)
+│   │   ├── cuckoo_search.py        # Cuckoo Search Algorithm
+│   │   ├── ssa_tune_gmdcn.py       # Tune GMDCN hyperparams via SSA
+│   │   └── compare_optimizers.py   # SSA vs Cuckoo Search benchmarking
 │   └── utils/                      # General helpers
 │
 ├── models/                         # Trained PyTorch checkpoints
 │   ├── baseline_cnn.pth            # Main MNIST model (used by backend)
 │   ├── cifar10_cnn.pth             # CIFAR-10 model
-│   └── graddiv_cnn.pth             # Gradient-diversity trained model
+│   ├── fashion_mnist_cnn.pth       # Fashion-MNIST model
+│   ├── graddiv_cnn.pth             # Gradient-diversity trained model
+│   └── gmdcn_cnn_clip.pth          # GMDCN model trained with gradient clipping
 │
 ├── data/                           # Dataset root
 │   ├── raw/                        # MNIST IDX files
@@ -232,7 +243,9 @@ Upload Image
 |------|---------|---------|
 | `models/baseline_cnn.pth` | MNIST | **Primary** — used by the API |
 | `models/graddiv_cnn.pth` | MNIST | Gradient-diversity regularized variant |
-| `models/cifar10_cnn.pth` | CIFAR-10 | Extended experiments only |
+| `models/gmdcn_cnn_clip.pth` | MNIST | GMDCN variant trained with gradient manipulation (clipping) |
+| `models/cifar10_cnn.pth` | CIFAR-10 | Full CIFAR-10 defense evaluation |
+| `models/fashion_mnist_cnn.pth`| Fashion-MNIST | Full Fashion-MNIST defense evaluation |
 
 ---
 

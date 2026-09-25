@@ -132,3 +132,15 @@
 - [x] Signed-out user: upload / **Analyze** / **attack test** on the Dashboard → toast + redirect to `/login`
 - [x] Signed-out user: visiting `/history` → redirect to `/login` (RequireAuth)
 - [x] Health endpoint `GET /health` returns `{"status":"ok","model_loaded":true}`
+
+---
+
+## Part C — Advanced ML Enhancements (Recently Added)
+
+| Area | Implementation | Status | Notes |
+|------|----------------|--------|-------|
+| CIFAR-10 Defense Eval | `src/data/cifar10_dataset.py`, `src/evaluation/evaluate_cifar10_full_defense.py` | ✅ Complete | Successfully evaluates defense suite on CIFAR-10. Discovered normalization mismatch leading to low clean accuracy. |
+| Fashion-MNIST Eval | `src/evaluation/evaluate_fashion_mnist.py`, `src/models/train_fashion_mnist.py` | ✅ Complete | Ported evaluation pipeline to Fashion-MNIST. |
+| GMDCN (Gradient Manipulation CNN) | `src/models/gmdcn.py`, `train_gmdcn.py`, `evaluate_gmdcn_defense.py` | ✅ Complete | Deeper CNN architecture implemented. Supports 3 manipulation modes (clip, mask, penalty). Re-evaluated defenses. |
+| Swarm Optimization | `src/optimization/` (`ssa.py`, `cuckoo_search.py`, `ssa_tune_gmdcn.py`, `compare_optimizers.py`) | ✅ Complete | Implemented SSA and Cuckoo Search from scratch to tune GMDCN hyperparameters (`learning_rate`, `dropout`, `manipulation_strength`). |
+| Optimization Results | `experiments/results/optimizer_comparison.json` | ✅ Complete | Cuckoo Search outperformed SSA, yielding 94.20% validation accuracy vs 91.20% (fast-dev-run). Plotted in `optimizer_comparison.png`. |

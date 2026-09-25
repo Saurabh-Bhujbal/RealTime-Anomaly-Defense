@@ -95,8 +95,9 @@ RealTime-Anomaly-Defense/
 │   │   ├── gradient_diversity.py    # GradientDiversityDefense (transform consistency)
 │   │   ├── combined_defense.py      # CombinedDefense (the live pipeline)
 │   │   └── defense_pipeline.py      # AnomalyDefensePipeline (simpler; eval-only)
-│   ├── data/                  # MNIST loader, preprocessing, dataset, visualization
-│   ├── evaluation/            # Ablation studies, figure/result generators
+│   ├── data/                  # MNIST loader, preprocessing, dataset, visualization, CIFAR-10
+│   ├── evaluation/            # Ablation studies, figure/result generators, GMDCN eval, CIFAR eval
+│   ├── optimization/          # Swarm optimizers (SSA, Cuckoo Search) & tuning scripts
 │   └── utils/
 │
 ├── backend/                   # ── FASTAPI SERVICE (~1,250 LOC) ──
@@ -136,6 +137,8 @@ RealTime-Anomaly-Defense/
 ├── models/                    # Trained checkpoints (gitignored, present locally)
 │   ├── baseline_cnn.pth       # MNIST CNN — the one the API loads
 │   ├── graddiv_cnn.pth        # Gradient-diversity-trained variant
+│   ├── gmdcn_cnn_clip.pth     # GMDCN model trained with gradient clipping
+│   ├── fashion_mnist_cnn.pth  # Fashion-MNIST trained checkpoint
 │   └── cifar10_cnn.pth        # CIFAR-10 model
 │
 ├── data/                      # raw/ (MNIST idx files), processed/, cifar10/
