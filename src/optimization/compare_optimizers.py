@@ -18,6 +18,7 @@ from src.data.preprocessing import MNISTDataset
 from src.models.gmdcn import GMDCN
 from src.optimization.ssa import SalpSwarmOptimizer
 from src.optimization.cuckoo_search import CuckooSearchOptimizer
+from src.optimization.osprey import OspreyOptimizer
 import config
 
 def set_seed(seed):
@@ -61,7 +62,7 @@ def train_briefly(model, train_loader, lr, strength, epochs, device):
             optimizer.step()
 
 def main():
-    parser = argparse.ArgumentParser(description="Compare SSA and Cuckoo Search on GMDCN")
+    parser = argparse.ArgumentParser(description="Compare SSA, Cuckoo Search, and Osprey Optimization on GMDCN")
     parser.add_argument("--pop-size", type=int, default=20)
     parser.add_argument("--max-iter", type=int, default=30)
     parser.add_argument("--epochs", type=int, default=3)
@@ -115,6 +116,11 @@ def main():
     cuckoo = CuckooSearchOptimizer(fitness_fn, bounds, population_size=args.pop_size, max_iter=args.max_iter)
     cuckoo_best, cuckoo_score, cuckoo_hist = cuckoo.run()
 
+    print("\n--- Running Osprey Optimization ---")
+    eval_count = 0
+    osprey = OspreyOptimizer(fitness_fn, bounds, population_size=args.pop_size, max_iter=args.max_iter)
+    osprey_best, osprey_score, osprey_hist = osprey.run()
+
     results = {
         "ssa": {
             "best_params": {
@@ -133,6 +139,15 @@ def main():
             },
             "best_score": float(cuckoo_score),
             "convergence": [float(h) for h in cuckoo_hist]
+        },
+        "osprey": {
+            "best_params": {
+                "learning_rate": float(osprey_best[0]),
+                "dropout": float(osprey_best[1]),
+                "manipulation_strength": float(osprey_best[2])
+            },
+            "best_score": float(osprey_score),
+            "convergence": [float(h) for h in osprey_hist]
         }
     }
 
@@ -147,7 +162,8 @@ def main():
     plt.figure(figsize=(8, 6))
     plt.plot(ssa_hist, label="Salp Swarm Algorithm (SSA)", color="royalblue", marker="o", linestyle="-", linewidth=2)
     plt.plot(cuckoo_hist, label="Cuckoo Search", color="darkorange", marker="s", linestyle="-", linewidth=2)
-    plt.title("Optimizer Convergence Comparison: SSA vs. Cuckoo Search", fontsize=14, fontweight="bold")
+    plt.plot(osprey_hist, label="Osprey Optimization Algorithm (OOA)", color="forestgreen", marker="^", linestyle="-", linewidth=2)
+    plt.title("Optimizer Convergence Comparison: SSA vs. Cuckoo vs. Osprey", fontsize=14, fontweight="bold")
     plt.xlabel("Iteration", fontsize=12)
     plt.ylabel("Validation Accuracy (%)", fontsize=12)
     plt.grid(True, linestyle="--", alpha=0.7)
@@ -162,6 +178,7 @@ def main():
     print("=" * 60)
     print(f"SSA Best Score: {ssa_score:.2f}%")
     print(f"Cuckoo Best Score: {cuckoo_score:.2f}%")
+    print(f"Osprey Best Score: {osprey_score:.2f}%")
     print(f"Results saved to: {result_path}")
     print(f"Figure saved to: {fig_path}")
 

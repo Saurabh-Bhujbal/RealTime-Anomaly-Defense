@@ -61,8 +61,9 @@ RealTime-Anomaly-Defense/
 │   ├── optimization/               # Swarm Optimization (Step Groups 4-5)
 │   │   ├── ssa.py                  # Salp Swarm Algorithm (SSA)
 │   │   ├── cuckoo_search.py        # Cuckoo Search Algorithm
+│   │   ├── osprey.py               # Osprey Optimization Algorithm (OOA)
 │   │   ├── ssa_tune_gmdcn.py       # Tune GMDCN hyperparams via SSA
-│   │   └── compare_optimizers.py   # SSA vs Cuckoo Search benchmarking
+│   │   └── compare_optimizers.py   # SSA vs Cuckoo vs Osprey benchmarking
 │   └── utils/                      # General helpers
 │
 ├── models/                         # Trained PyTorch checkpoints
